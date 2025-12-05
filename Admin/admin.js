@@ -1,5 +1,4 @@
 // admin.js
-import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import AdminJS, { ComponentLoader } from 'adminjs'
@@ -35,29 +34,9 @@ AdminJS.registerAdapter(AdminJSMongoose)
 
 const db = await mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://ammar:ammar123@ilm-pro.jeilouv.mongodb.net/?retryWrites=true&w=majority&appName=ILM-Pro")
 
-const componentLoader = new ComponentLoader()
-
-const Components = {
-  // CORRECTED LINE: Use path.join to create an absolute path
-  Dashboard: componentLoader.add('Dashboard', path.join(__dirname, 'components', 'Dashboard.jsx')),
-  // other custom components
-}
-
-const dashboardHandler = async () => {
-  // Asynchronous code where you, e. g. fetch data from your database
-  let users = await User.find()
-  return  users
-}
-
-
 //Create AdminJS instance
 const adminJs = new AdminJS({
   rootPath: '/admin',
-  dashboard:{
-    component:Components.Dashboard,
-    handler: dashboardHandler,
-  },
-  componentLoader,
   resources: [
     {
       resource: User
